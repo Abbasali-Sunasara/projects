@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In / Sign Up</title>
+    <style>
+        body {
+            background: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .auth-container {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: #1e1e1e;
+            color: white;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .sign-in-btn { background: #fd1d1d; color: white; }
+        .sign-up-btn { background: #fcb045; color: black; }
+        .toggle { margin-top: 15px; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="auth-container">
+    <h2 id="auth-title">Sign In</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button class="auth-btn sign-in-btn" onclick="signIn()">Sign In</button>
+    <button class="auth-btn sign-up-btn" onclick="toggleSignUp()">Sign Up</button>
+    <p class="toggle" onclick="toggleSignUp()">Don't have an account? Sign Up</p>
+</div>
+
+<script>
+    let isSignUp = false;
+    function toggleSignUp() {
+        isSignUp = !isSignUp;
+        document.getElementById("auth-title").innerText = isSignUp ? "Sign Up" : "Sign In";
+    }
+
+    function signIn() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        if (username === "admin" && password === "password") {
+            alert("Login Successful!");
+            window.location.href = "bot_index.html";
+        } else {
+            alert("Invalid Credentials!");
+        }
+    }
+</script>
+</body>
+</html>

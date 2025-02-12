@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeWise Bot</title>
+    <style>
+        body {
+            background: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 16%;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .chat-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .chat-input {
+            flex-grow: 1;
+            background: #1e1e1e;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 20px;
+            min-height: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            outline: none;
+            resize: none; /* Prevent manual resizing */
+        }
+        .send-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            border: none;
+            color:White;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <aside class="sidebar">
+        <div class="logo">CodeWise Bot</div>
+        <div class="nav-links">
+            <a href="#">Chat</a>
+            <a href="#">Code Review</a>
+            <a href="#">Compiler</a>
+        </div>
+    </aside>
+    <main class="main-content">
+        <div class="chat-container">
+            <textarea class="chat-input" placeholder="Enter your code here..." rows="1"></textarea>
+            <button class="send-btn">Send</button>
+        </div>
+    </main>
+</div>
+
+<script>
+    const chatInput = document.querySelector('.chat-input');
+
+   chatInput.addEventListener('input', function () {
+    this.style.height = 'auto'; // Allow it to shrink properly
+    if (this.value.trim() === '') {
+        this.style.height = '20px'; // Reset to original height
+    } else {
+        this.style.height = this.scrollHeight + 'px'; // Expand dynamically
+    }
+});
+</script>
+
+</body>
+</html>
