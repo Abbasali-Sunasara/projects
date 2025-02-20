@@ -27,10 +27,17 @@
             align-items: center;
         }
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 24px;
             font-weight: bold;
             text-align: center;
             margin-bottom: 20px;
+        }
+        .logo img {
+            width: 40px;
+            height: 40px;
         }
         .nav-links {
             display: flex;
@@ -47,6 +54,12 @@
             text-align: center;
             width: 100%;
         }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transition: background 0.3s ease;
+        }
+
         .main-content {
             flex-grow: 1;
             padding: 20px;
@@ -60,35 +73,53 @@
             gap: 10px;
             width: 100%;
         }
+        .chat-message {
+            background: #1e1e1e;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            width: fit-content;
+            max-width: 80%;
+        }
+
         .chat-input {
             flex-grow: 1;
             background: #1e1e1e;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
             border-radius: 20px;
             min-height: 20px;
             max-height: 200px;
             overflow-y: auto;
             outline: none;
-            resize: none; /* Prevent manual resizing */
+            resize: none;
+            transition: all 0.5s ease-in-out;
         }
         .send-btn {
             padding: 10px 20px;
             background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
             border: none;
-            color:White;
+            color: white;
             font-size: 16px;
             cursor: pointer;
             border-radius: 20px;
+        }
+
+        .send-btn:hover {
+            background: linear-gradient(135deg, #833ac5, #fd7d1d, #fcb035);
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 <div class="container">
     <aside class="sidebar">
-        <div class="logo">CodeWise Bot</div>
+        <div class="logo">
+            <img src="https://img.icons8.com/?size=100&id=XiSP6YsZ9SZ0&format=png&color=000000" alt="Bot Logo">
+            CodeWise
+        </div>
         <div class="nav-links">
             <a href="#">Chat</a>
             <a href="#">Code Review</a>
@@ -106,14 +137,14 @@
 <script>
     const chatInput = document.querySelector('.chat-input');
 
-   chatInput.addEventListener('input', function () {
-    this.style.height = 'auto'; // Allow it to shrink properly
-    if (this.value.trim() === '') {
-        this.style.height = '20px'; // Reset to original height
-    } else {
-        this.style.height = this.scrollHeight + 'px'; // Expand dynamically
-    }
-});
+    chatInput.addEventListener('input', function () {
+        this.style.height = 'auto';
+        if (this.value.trim() === '') {
+            this.style.height = '20px';
+        } else {
+            this.style.height = this.scrollHeight + 'px';
+        }
+    });
 </script>
 
 </body>
