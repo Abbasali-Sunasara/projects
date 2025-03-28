@@ -154,32 +154,41 @@
 
 <script>
     function sendMessage() {
-        const userInput = document.getElementById("userInput").value.trim();
-        if (userInput === "") return;
+    const userInputElement = document.getElementById("userInput");
+    const userInput = userInputElement.value.trim();
+    if (userInput === "") return;
 
-        // Display User Message
-        displayMessage(userInput, "user-message");
+    // Display User Message
+    displayMessage(userInput, "user-message");
 
-        // Show typing indicator
-        showTypingIndicator();
+    // Show typing indicator
+    showTypingIndicator();
 
-        fetch("http://localhost:4567/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: userInput })
-        })
-        .then(response => response.json())
-        .then(data => {
-            hideTypingIndicator(); // Remove typing indicator
-            displayMessage(data.response, "bot-message"); // Display bot response
-        })
-        .catch(error => {
-            hideTypingIndicator();
-            displayMessage("Error: Unable to connect to the server.", "bot-message");
-        });
+    fetch("http://localhost:4567/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userInput })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideTypingIndicator(); // Remove typing indicator
+        displayMessage(data.response, "bot-message"); // Display bot response
+    })
+    .catch(error => {
+        hideTypingIndicator();
+        displayMessage("Error: Unable to connect to the server.", "bot-message");
+    });
 
-        document.getElementById("userInput").value = ""; // Clear input field
-    }
+    // Reset input field
+    userInputElement.value = "";
+
+
+    setTimeout(() => {
+        userInputElement.style.height = "auto"; // Reset height
+        userInputElement.style.height = "20px"; // Force collapse
+    }, 0);
+}
+
 
     function displayMessage(text, className) {
         const chatBox = document.getElementById("chatBox");
@@ -194,7 +203,7 @@
         setTimeout(() => {
             messageDiv.style.opacity = 1;
             messageDiv.style.transition = "opacity 0.5s ease-in-out";
-        }, 100);
+        }, 30);
     }
 
     function showTypingIndicator() {
