@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import okhttp3.*;
-
+import java.util.concurrent.TimeUnit;
 import java.io.IOException;
 
 public class GeminiAPIClient {
@@ -12,7 +12,11 @@ public class GeminiAPIClient {
     private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + API_KEY;
 
     public static String getGeminiResponse(String prompt) {
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS) // Increase connection timeout
+                .readTimeout(60, TimeUnit.SECONDS)    // Increase read timeout
+                .writeTimeout(60, TimeUnit.SECONDS)   // Increase write timeout
+                .build();
 
         // Correct JSON request format
         JsonObject requestBody = new JsonObject();
