@@ -70,7 +70,7 @@
         .chat-box {
             flex-grow: 1;
             overflow-y: auto;
-            max-height: 70vh;
+            height: 100%;
             padding: 10px;
             border-radius: 10px;
             background: #1e1e1e;
@@ -94,8 +94,8 @@
             background: #444;
         }
         .chat-container {
+            position: relative;
             display: flex;
-            align-items: center;
             gap: 10px;
             width: 100%;
         }
@@ -104,29 +104,36 @@
             background: #1e1e1e;
             color: white;
             border: none;
-            padding: 12px;
+            padding: 12px 70px 12px 20px;
             font-size: 16px;
-            border-radius: 20px;
-            min-height: 20px;
+            border-radius: 10px;
+            min-height: 40px;
             max-height: 200px;
             overflow-y: auto;
             outline: none;
             resize: none;
-            transition: all 0.5s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+            box-sizing: border-box;
         }
         .send-btn {
-            padding: 10px 20px;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 8px 16px;
             background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
             border: none;
             color: white;
             font-size: 16px;
             cursor: pointer;
             border-radius: 20px;
+            z-index: 1;
         }
 
         .send-btn:hover {
             background: linear-gradient(135deg, #833ac5, #fd7d1d, #fcb035);
-            transform: scale(1.05);
+            transform: translateY(-50%) scale(1.05);
         }
     </style>
 </head>
@@ -138,9 +145,8 @@
             CodeWise
         </div>
         <div class="nav-links">
-            <a href="#">Chat</a>
             <a href="#">Code Review</a>
-            <a href="#">Compiler</a>
+            <a href="compiler.html">Compiler</a>
         </div>
     </aside>
     <main class="main-content">
@@ -183,10 +189,12 @@
     userInputElement.value = "";
 
 
-    setTimeout(() => {
-        userInputElement.style.height = "auto"; // Reset height
-        userInputElement.style.height = "20px"; // Force collapse
-    }, 0);
+   setTimeout(() => {
+    userInputElement.style.height = "auto"; // Properly reset height after sending
+    userInputElement.style.height = "40px";
+
+}, 0);
+
 }
 
 
@@ -231,10 +239,10 @@
     }
 
     const chatInput = document.getElementById("userInput");
-    chatInput.addEventListener("input", function () {
-        this.style.height = "auto";
-        this.style.height = this.scrollHeight + "px";
-    });
+    chatInput.addEventListener("input", () => {
+    chatInput.style.height = "auto";
+    chatInput.style.height = chatInput.scrollHeight + "px";
+});
 </script>
 
 

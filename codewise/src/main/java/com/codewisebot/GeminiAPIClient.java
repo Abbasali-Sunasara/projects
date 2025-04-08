@@ -51,7 +51,7 @@ public class GeminiAPIClient {
             JsonArray candidates = jsonResponse.getAsJsonArray("candidates");
 
             if (candidates != null && candidates.size() > 0) {
-                return candidates.get(0)
+                String rawText = candidates.get(0)
                         .getAsJsonObject()
                         .get("content")
                         .getAsJsonObject()
@@ -60,9 +60,20 @@ public class GeminiAPIClient {
                         .getAsJsonObject()
                         .get("text")
                         .getAsString();
+
+                // Clean formatting: remove markdown formatting and normalize spacing
+                String cleanedText = rawText
+                        .replaceAll("(?m)^\\s*\\*\\s*", "")       // remove leading asterisks from bullet points
+                        .replace("**", "")                        // remove markdown bold
+                        .replaceAll("(?m)\\n{3,}", "\n\n\n");      // collapse 3+ newlines to 2
+
+
+                return cleanedText;
             } else {
                 return "Error: No response from Gemini API.";
             }
+
+
         } catch (IOException e) {
             return "Error: " + e.getMessage();
         }
