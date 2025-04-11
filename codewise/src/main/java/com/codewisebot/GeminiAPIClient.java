@@ -61,17 +61,20 @@ public class GeminiAPIClient {
                         .get("text")
                         .getAsString();
 
-                // Clean formatting: remove markdown formatting and normalize spacing
+                // Clean formatting
                 String cleanedText = rawText
-                        .replaceAll("(?m)^\\s*\\*\\s*", "")       // remove leading asterisks from bullet points
-                        .replace("**", "")                        // remove markdown bold
-                        .replaceAll("(?m)\\n{3,}", "\n\n\n");      // collapse 3+ newlines to 2
-
+                        .replaceAll("(?m)^\\s*\\*\\s*", "")             // remove leading asterisks from bullet points
+                        .replace("**", "")                              // remove markdown bold
+                        .replaceAll("(?m)\\n{3,2}", "\n\n")              // collapse 3+ newlines to max 2
+                        .replaceAll("(?m)^([A-Za-z\\s]{2,30}:)", "\n\n$1") // add spacing before common section headers
+                        .trim();
 
                 return cleanedText;
             } else {
                 return "Error: No response from Gemini API.";
             }
+
+
 
 
         } catch (IOException e) {

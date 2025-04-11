@@ -116,6 +116,17 @@
             width: 100%;
             box-sizing: border-box;
         }
+
+        .chat-message pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+
+
         .send-btn {
             position: absolute;
             right: 20px;
@@ -202,7 +213,7 @@
         const chatBox = document.getElementById("chatBox");
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("chat-message", className);
-        messageDiv.innerText = text;
+        messageDiv.innerHTML = `<pre><code>${text}</code></pre>`;
         chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
 
