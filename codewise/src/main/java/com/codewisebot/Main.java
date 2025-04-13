@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 
 public class Main {
     public static void main(String[] args) {
+         final String GAPI_KEY =System.getenv("API_KEY");
         port(4567); // Start the server on port 4567
 
         // Serve static files from src/main/resources/public
@@ -30,5 +31,7 @@ public class Main {
         });
 
         System.out.println("🚀 Server is running on http://localhost:4567");
+        System.out.println("key" + GAPI_KEY);
     }
+
 }

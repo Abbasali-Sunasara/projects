@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.io.IOException;
 
 public class GeminiAPIClient {
-    private static final String API_KEY =System.getenv("GEMINI_API_KEY");
+    private static final String API_KEY =System.getenv("API_KEY");
     private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + API_KEY;
 
     public static String getGeminiResponse(String prompt) {
@@ -65,8 +65,8 @@ public class GeminiAPIClient {
                 String cleanedText = rawText
                         .replaceAll("(?m)^\\s*\\*\\s*", "")             // remove leading asterisks from bullet points
                         .replace("**", "")                              // remove markdown bold
-                        .replaceAll("(?m)\\n{3,2}", "\n\n")              // collapse 3+ newlines to max 2
-                        .replaceAll("(?m)^([A-Za-z\\s]{2,30}:)", "\n\n$1") // add spacing before common section headers
+                        .replaceAll("(?m)\\n{3,}", "\n\n")              // collapse 3+ newlines to max 2
+                        .replaceAll("(?m)^([A-Za-z\\s]{2,30}:)", "\n") // add spacing before common section headers
                         .trim();
 
                 return cleanedText;
