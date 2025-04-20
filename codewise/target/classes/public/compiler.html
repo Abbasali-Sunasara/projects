@@ -159,58 +159,105 @@
         </div>
 
         <textarea id="codeInput" placeholder="Write your code here..."></textarea>
+        <textarea id="userInput" placeholder="Enter input..." style="margin-top: 10px; display: none;"></textarea>
         <div class="output-box" id="outputArea">Output will appear here...</div>
     </main>
 </div>
 
 <script>
-    async function runCode() {
-      const code = document.getElementById("codeInput").value;
-      const lang = document.getElementById("language").value;
-      const output = document.getElementById("outputArea");
+    const codeEditor = document.getElementById("codeInput"); // The code editor element
+    const userInput = document.getElementById("userInput"); // The user input field
+    const languageSelect = document.getElementById("language"); // The language selection dropdown
+    const output = document.getElementById("outputArea"); // The output container
 
-      // Language mapping to Judge0 IDs (you can expand this)
-      const languageIds = {
-        "cpp": 54,
-        "python": 71,
-        "java": 62,
-        "javascript": 63
+    const languageIds = {
+      "cpp": 54,
+      "python": 71,
+      "java": 62,
+      "javascript": 63,
+      "c": 50, // You added C language, so make sure the id is correct
+      "ruby": 72, // Added Ruby, make sure the id is correct
+    };
+
+    // Detect input usage based on language
+    function detectInputUsage(code, language) {
+      const inputPatterns = {
+        "python": /input\s*\(/, // Python input pattern
+        "cpp": /\bcin\s*>>/, // C++ input pattern
+        "c": /\bscanf\s*\(/, // C input pattern
+        "java": /\bScanner\b|\bSystem\.in\b/, // Java input pattern
+        "javascript": /\bprompt\s*\(/, // JavaScript input pattern
+        "ruby": /\bgets\b/, // Ruby input pattern
       };
 
-      const encodedCode = btoa(code); // Base64 encode the code
+      const lang = language.toLowerCase();
+      const regex = inputPatterns[lang];
+      return regex?.test(code); // Return true if input is detected
+    }
 
-      output.innerText = "⏳ Compiling your code...";
+    // Handle input detection and show/hide input field accordingly
+    function handleInputDetection() {
+      const code = codeEditor.value;
+      const language = languageSelect.value;
+
+      if (detectInputUsage(code, language)) {
+        userInput.style.display = "block"; // Show input field if code uses input
+      } else {
+        userInput.style.display = "none"; // Hide input field if no input detected
+        userInput.value = ""; // Clear user input when not needed
+      }
+    }
+
+    // Attach event listeners for code input and language change
+    codeEditor.addEventListener("input", handleInputDetection);
+    languageSelect.addEventListener("change", handleInputDetection);
+
+    // Function to run the code
+    async function runCode() {
+      const code = codeEditor.value;
+      const input = userInput.value;
+      const lang = languageSelect.value;
+
+      const encodedCode = btoa(code); // Encode source code in base64
+      const encodedInput = btoa(input); // Encode user input in base64
+
+      output.innerText = "⏳ Compiling your code..."; // Show compiling message
 
       try {
+        // Send request to Judge0 API for code execution
         const response = await fetch("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&wait=true", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-RapidAPI-Key": "31adf47a96mshecd7a11352b95a6p1bed7bjsn82872e0227a0",
+            "X-RapidAPI-Key": "31adf47a96mshecd7a11352b95a6p1bed7bjsn82872e0227a0", // Replace with your actual API key
             "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com"
           },
           body: JSON.stringify({
-            language_id: languageIds[lang],
-            source_code: encodedCode,
+            language_id: languageIds[lang], // Pass correct language ID
+            source_code: encodedCode, // Pass encoded source code
+            stdin: encodedInput // Pass encoded user input
           })
         });
 
-        const data = await response.json();
+        const data = await response.json(); // Parse API response
 
+        // Check if there's an error or output and display accordingly
         if (data.stderr) {
-          output.innerText = `❌ Error:\n${atob(data.stderr)}`;
+          output.innerText = `❌ Error:\n${atob(data.stderr)}`; // Show stderr errors
         } else if (data.compile_output) {
-          output.innerText = `🛠️ Compilation Error:\n${atob(data.compile_output)}`;
+          output.innerText = `🛠️ Compilation Error:\n${atob(data.compile_output)}`; // Show compile errors
         } else {
-          output.innerText = `✅ Output:\n${atob(data.stdout)}`;
+          output.innerText = `✅ Output:\n${atob(data.stdout)}`; // Show standard output
         }
 
       } catch (err) {
-        output.innerText = "⚠️ Failed to compile. Please try again.";
-        console.error(err);
+        output.innerText = "⚠️ Failed to compile. Please try again."; // Show failure message
+        console.error(err); // Log any errors in the console
       }
     }
+
 </script>
+
 
 
 </body>
