@@ -1,261 +1,261 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeWise Bot</title>
-    <style>
-        body {
-            background: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            height: 100vh;
-        }
-        .container {
-            display: flex;
-            width: 100%;
-        }
-        .sidebar {
-            width: 16%;
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo img {
-            width: 40px;
-            height: 40px;
-        }
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: white;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            width: 100%;
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CodeWise Bot</title>
+        <style>
+            body {
+                background: #121212;
+                color: white;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                height: 100vh;
+            }
+            .container {
+                display: flex;
+                width: 100%;
+            }
+            .sidebar {
+                width: 16%;
+                background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 24px;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 30px;
+            }
+            .nav-links a {
+                text-decoration: none;
+                color: white;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 10px;
+                border-radius: 8px;
+                text-align: center;
+                width: 100%;
+            }
+
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.4);
+                transition: background 0.3s ease;
+            }
+
+            .main-content {
+                flex-grow: 1;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+            }
+            .chat-box {
+                flex-grow: 1;
+                overflow-y: auto;
+                height: 100%;
+                padding: 10px;
+                border-radius: 10px;
+                background: #1e1e1e;
+                display: flex;
+                flex-direction: column;
+            }
+            .chat-message {
+                padding: 10px;
+                margin: 5px;
+                border-radius: 5px;
+                max-width: 80%;
+                word-wrap: break-word;
+            }
+            .user-message {
+                align-self: flex-end;
+                background: #0078FF;
+                color: white;
+            }
+            .bot-message {
+                align-self: flex-start;
+                background: #444;
+            }
+            .chat-container {
+                position: relative;
+                display: flex;
+                gap: 10px;
+                width: 100%;
+            }
+            .chat-input {
+                flex-grow: 1;
+                background: #1e1e1e;
+                color: white;
+                border: none;
+                padding: 12px 70px 12px 20px;
+                font-size: 16px;
+                border-radius: 10px;
+                min-height: 40px;
+                max-height: 200px;
+                overflow-y: auto;
+                outline: none;
+                resize: none;
+                transition: all 0.2s ease-in-out;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .chat-message pre {
+                margin: 0;
+                white-space: pre-wrap;
+                font-family: monospace;
+                font-size: 15px;
+                line-height: 1.5;
+            }
+
+
+
+            .send-btn {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                padding: 8px 16px;
+                background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+                border: none;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 20px;
+                z-index: 1;
+            }
+
+            .send-btn:hover {
+                background: linear-gradient(135deg, #833ac5, #fd7d1d, #fcb035);
+                transform: translateY(-50%) scale(1.05);
+            }
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="https://img.icons8.com/?size=100&id=XiSP6YsZ9SZ0&format=png&color=000000" alt="Bot Logo">
+                CodeWise
+            </div>
+            <div class="nav-links">
+                <a href="#">Code Review</a>
+                <a href="compiler.html">Compiler</a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="chat-box" id="chatBox"></div>
+            <div class="chat-container">
+                <textarea id="userInput" class="chat-input" placeholder="Type your message..." rows="1" onkeypress="handleKeyPress(event)"></textarea>
+                <button class="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function sendMessage() {
+        const userInputElement = document.getElementById("userInput");
+        const userInput = userInputElement.value.trim();
+        if (userInput === "") return;
+
+        // Display User Message
+        displayMessage(userInput, "user-message");
+
+        // Show typing indicator
+        showTypingIndicator();
+
+        fetch("http://localhost:4567/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: userInput })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideTypingIndicator(); // Remove typing indicator
+            displayMessage(data.response, "bot-message"); // Display bot response
+        })
+        .catch(error => {
+            hideTypingIndicator();
+            displayMessage("Error: Unable to connect to the server.", "bot-message");
+        });
+
+        // Reset input field
+        userInputElement.value = "";
+
+
+       setTimeout(() => {
+        userInputElement.style.height = "auto"; // Properly reset height after sending
+        userInputElement.style.height = "40px";
+
+    }, 0);
+
+    }
+
+
+        function displayMessage(text, className) {
+            const chatBox = document.getElementById("chatBox");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("chat-message", className);
+            messageDiv.innerHTML = `<pre><code>${text}</code></pre>`;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
+
+            // Add fade-in animation
+            messageDiv.style.opacity = 0;
+            setTimeout(() => {
+                messageDiv.style.opacity = 1;
+                messageDiv.style.transition = "opacity 0.5s ease-in-out";
+            }, 30);
         }
 
-        .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transition: background 0.3s ease;
+        function showTypingIndicator() {
+            const chatBox = document.getElementById("chatBox");
+            const typingDiv = document.createElement("div");
+            typingDiv.id = "typingIndicator";
+            typingDiv.classList.add("chat-message", "bot-message");
+            typingDiv.innerHTML = "🤖 Typing...";
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-        .chat-box {
-            flex-grow: 1;
-            overflow-y: auto;
-            height: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            background: #1e1e1e;
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-message {
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-        .user-message {
-            align-self: flex-end;
-            background: #0078FF;
-            color: white;
-        }
-        .bot-message {
-            align-self: flex-start;
-            background: #444;
-        }
-        .chat-container {
-            position: relative;
-            display: flex;
-            gap: 10px;
-            width: 100%;
-        }
-        .chat-input {
-            flex-grow: 1;
-            background: #1e1e1e;
-            color: white;
-            border: none;
-            padding: 12px 70px 12px 20px;
-            font-size: 16px;
-            border-radius: 10px;
-            min-height: 40px;
-            max-height: 200px;
-            overflow-y: auto;
-            outline: none;
-            resize: none;
-            transition: all 0.2s ease-in-out;
-            width: 100%;
-            box-sizing: border-box;
+        function hideTypingIndicator() {
+            const typingDiv = document.getElementById("typingIndicator");
+            if (typingDiv) {
+                typingDiv.remove();
+            }
         }
 
-        .chat-message pre {
-            margin: 0;
-            white-space: pre-wrap;
-            font-family: monospace;
-            font-size: 15px;
-            line-height: 1.5;
+        function handleKeyPress(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
         }
 
-
-
-        .send-btn {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 20px;
-            z-index: 1;
-        }
-
-        .send-btn:hover {
-            background: linear-gradient(135deg, #833ac5, #fd7d1d, #fcb035);
-            transform: translateY(-50%) scale(1.05);
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <aside class="sidebar">
-        <div class="logo">
-            <img src="https://img.icons8.com/?size=100&id=XiSP6YsZ9SZ0&format=png&color=000000" alt="Bot Logo">
-            CodeWise
-        </div>
-        <div class="nav-links">
-            <a href="#">Code Review</a>
-            <a href="compiler.html">Compiler</a>
-        </div>
-    </aside>
-    <main class="main-content">
-        <div class="chat-box" id="chatBox"></div>
-        <div class="chat-container">
-            <textarea id="userInput" class="chat-input" placeholder="Type your message..." rows="1" onkeypress="handleKeyPress(event)"></textarea>
-            <button class="send-btn" onclick="sendMessage()">Send</button>
-        </div>
-    </main>
-</div>
-
-<script>
-    function sendMessage() {
-    const userInputElement = document.getElementById("userInput");
-    const userInput = userInputElement.value.trim();
-    if (userInput === "") return;
-
-    // Display User Message
-    displayMessage(userInput, "user-message");
-
-    // Show typing indicator
-    showTypingIndicator();
-
-    fetch("http://localhost:4567/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userInput })
-    })
-    .then(response => response.json())
-    .then(data => {
-        hideTypingIndicator(); // Remove typing indicator
-        displayMessage(data.response, "bot-message"); // Display bot response
-    })
-    .catch(error => {
-        hideTypingIndicator();
-        displayMessage("Error: Unable to connect to the server.", "bot-message");
+        const chatInput = document.getElementById("userInput");
+        chatInput.addEventListener("input", () => {
+        chatInput.style.height = "auto";
+        chatInput.style.height = chatInput.scrollHeight + "px";
     });
-
-    // Reset input field
-    userInputElement.value = "";
+    </script>
 
 
-   setTimeout(() => {
-    userInputElement.style.height = "auto"; // Properly reset height after sending
-    userInputElement.style.height = "40px";
-
-}, 0);
-
-}
-
-
-    function displayMessage(text, className) {
-        const chatBox = document.getElementById("chatBox");
-        const messageDiv = document.createElement("div");
-        messageDiv.classList.add("chat-message", className);
-        messageDiv.innerHTML = `<pre><code>${text}</code></pre>`;
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
-
-        // Add fade-in animation
-        messageDiv.style.opacity = 0;
-        setTimeout(() => {
-            messageDiv.style.opacity = 1;
-            messageDiv.style.transition = "opacity 0.5s ease-in-out";
-        }, 30);
-    }
-
-    function showTypingIndicator() {
-        const chatBox = document.getElementById("chatBox");
-        const typingDiv = document.createElement("div");
-        typingDiv.id = "typingIndicator";
-        typingDiv.classList.add("chat-message", "bot-message");
-        typingDiv.innerHTML = "🤖 Typing...";
-        chatBox.appendChild(typingDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function hideTypingIndicator() {
-        const typingDiv = document.getElementById("typingIndicator");
-        if (typingDiv) {
-            typingDiv.remove();
-        }
-    }
-
-    function handleKeyPress(event) {
-        if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();
-            sendMessage();
-        }
-    }
-
-    const chatInput = document.getElementById("userInput");
-    chatInput.addEventListener("input", () => {
-    chatInput.style.height = "auto";
-    chatInput.style.height = chatInput.scrollHeight + "px";
-});
-</script>
-
-
-</body>
-</html>
+    </body>
+    </html>
