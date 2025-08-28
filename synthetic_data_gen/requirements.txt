@@ -1,0 +1,4 @@
+streamlit
+pandas
+numpy
+sdv>=1.0.0
